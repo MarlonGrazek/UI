@@ -1,3 +1,5 @@
+package com.marlongrazek.ui;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
