@@ -1,5 +1,6 @@
 package com.marlongrazek.ui;
 
+import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -10,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -19,6 +21,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 public class UI {
@@ -29,15 +32,19 @@ public class UI {
     private final Player player;
     private final Plugin plugin;
     private final boolean preventClose;
-    private final int size;
+    private int size;
     private final String title;
+    private InventoryType type;
 
     private void closeInventory() {
         HandlerList.unregisterAll(this.events);
     }
 
     private void openInventory() {
-        inv = Bukkit.createInventory(this.player, this.size, this.title);
+
+        if (type != null) inv = Bukkit.createInventory(this.player, this.type, this.title);
+        else inv = Bukkit.createInventory(this.player, this.size, this.title);
+
         for (Item item : this.items.values()) {
             for (Integer slot : items.keySet()) {
                 if (items.get(slot) == item) {
@@ -58,6 +65,85 @@ public class UI {
         this.items = items;
         this.preventClose = preventClose;
         openInventory();
+    }
+
+    public UI(Plugin plugin, Player player, String title, InventoryType type, HashMap<Integer, Item> items, boolean preventClose) {
+        this.plugin = plugin;
+        this.player = player;
+        this.title = title;
+        this.type = type;
+        this.items = items;
+        this.preventClose = preventClose;
+        openInventory();
+    }
+
+    public static class Anvil {
+
+        private Item leftItem;
+        private Consumer<Player> onClose;
+        private BiFunction<Player, String, AnvilGUI.Response> onComplete;
+        private Consumer<Player> onLeftItemClick;
+        private Consumer<Player> onRightItemClick;
+        private Plugin plugin;
+        private boolean preventClose;
+        private Item rightItem;
+        private String text;
+        private String title;
+
+
+        public String getText() {
+            return text;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public Item getLeftItem() {
+            return leftItem;
+        }
+
+        public Item getRightItem() {
+            return rightItem;
+        }
+
+        public void open(Player player) {
+
+            AnvilGUI.Builder builder = new AnvilGUI.Builder();
+
+            builder.title(title);
+            builder.plugin(plugin);
+
+            builder.text(rightItem.getName());
+
+            builder.itemRight(rightItem.toItemStack());
+            builder.itemLeft(leftItem.toItemStack());
+
+            builder.onClose(onClose);
+            builder.onComplete(onComplete);
+            builder.onLeftInputClick(onLeftItemClick);
+            builder.onRightInputClick(onRightItemClick);
+
+            if (preventClose) builder.preventClose();
+
+            builder.open(player);
+        }
+
+        public void setLeftItem(Item leftItem) {
+            this.leftItem = leftItem;
+        }
+
+        public void setRightItem(Item rightItem) {
+            this.rightItem = rightItem;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
     }
 
     private class Events implements Listener {
@@ -222,12 +308,13 @@ public class UI {
     public static class Page {
 
         private Player holder;
+        private Boolean isOpen = false;
         private HashMap<Integer, Item> items = new HashMap<>();
         private Plugin plugin;
         private boolean preventClose;
         private int size;
         private String title;
-        private Boolean isOpen = false;
+        private InventoryType type;
 
         public void setSection(Section section, Integer start) {
 
@@ -269,7 +356,8 @@ public class UI {
 
         public void open(Player p) {
             isOpen = true;
-            new UI(this.plugin, p, this.title, this.size, this.items, this.preventClose);
+            if (type != null) new UI(this.plugin, p, this.title, type, this.items, this.preventClose);
+            else new UI(this.plugin, p, this.title, this.size, this.items, this.preventClose);
         }
 
         public void preventClose() {
@@ -301,6 +389,10 @@ public class UI {
 
         public void setTitle(String title) {
             this.title = title;
+        }
+
+        public void setType(InventoryType type) {
+            this.type = type;
         }
     }
 
