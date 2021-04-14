@@ -366,6 +366,11 @@ public class UI {
             return this.title;
         }
 
+        public void moveItem(Item item, Integer slot) {
+            this.items.remove(slot);
+            setItem(item, slot);
+        }
+
         public void open(Player p) {
             isOpen = true;
             if (type != null) new UI(this.plugin, p, this.title, type, this.items, this.preventClose);
@@ -379,12 +384,12 @@ public class UI {
         public void removeItem(Item item) {
             Integer slot = getSlot(item);
             this.items.remove(slot, item);
-            if (isOpen) setItem(null, slot);
+            if (isOpen) inv.setItem(slot, null);
         }
 
         public void removeItem(Integer slot) {
             this.items.remove(slot);
-            if (isOpen) setItem(null, slot);
+            if (isOpen) inv.setItem(slot, null);
         }
 
         public void setHolder(Player holder) {
@@ -392,7 +397,6 @@ public class UI {
         }
 
         public void setItem(Item item, Integer slot) {
-            this.items.remove(slot);
             this.items.put(slot, item);
             if (isOpen) inv.setItem(slot, item.toItemStack());
         }
