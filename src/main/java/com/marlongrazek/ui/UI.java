@@ -349,7 +349,8 @@ public class UI {
         }
 
         public Integer getSlot(Item item) {
-            for (int i = 0; i < inv.getContents().length; i++) if (inv.getItem(i).equals(item.toItemStack())) return i;
+            for (int i = 0; i < inv.getContents().length; i++)
+                if (inv.getItem(i) != null) if (inv.getItem(i).equals(item.toItemStack())) return i;
             return null;
         }
 
