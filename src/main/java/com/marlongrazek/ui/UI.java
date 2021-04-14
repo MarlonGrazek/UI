@@ -349,12 +349,8 @@ public class UI {
         }
 
         public Integer getSlot(Item item) {
-            int slot = 0;
-            for(int s = 0; s < items.keySet().size(); s++) {
-                Item i = items.get(s);
-                if(i.equals(item)) slot = s;
-            }
-            return slot;
+            for (int s : items.keySet()) if (items.get(s) == item) return s;
+            return null;
         }
 
         public Item getItem(Integer slot) {
