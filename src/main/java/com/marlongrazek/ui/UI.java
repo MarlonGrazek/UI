@@ -107,6 +107,22 @@ public class UI {
             return rightItem;
         }
 
+        public void onClose(Consumer<Player> onClose) {
+            this.onClose = onClose;
+        }
+
+        public void onComplete(BiFunction<Player, String, AnvilGUI.Response> onComplete) {
+            this.onComplete = onComplete;
+        }
+
+        public void onLeftItemClick(Consumer<Player> onLeftItemClick) {
+            this.onLeftItemClick = onLeftItemClick;
+        }
+
+        public void onRightItemClick(Consumer<Player> onRightItemClick) {
+            this.onRightItemClick = onRightItemClick;
+        }
+
         public void open(Player player) {
 
             AnvilGUI.Builder builder = new AnvilGUI.Builder();
@@ -316,16 +332,6 @@ public class UI {
         private String title;
         private InventoryType type;
 
-        public void setSection(Section section, Integer start) {
-
-            for (int i = 0; i < section.getItems().keySet().size(); i++) {
-                ArrayList<Integer> slots = new ArrayList<>(section.getItems().keySet());
-                int slot = slots.get(i);
-                if (section.isReversed()) Collections.reverse(slots);
-                setItem(section.getItems().get(slots.get(i)), start + slot);
-            }
-        }
-
         public void addItem(Item item) {
             if (!items.isEmpty()) {
                 for (int slot = 0; slot < items.size() + 1; slot++) {
@@ -340,6 +346,12 @@ public class UI {
 
         public Player getHolder() {
             return this.holder;
+        }
+
+        public Integer getSlot(Item item) {
+            Integer slot = 0;
+            if (items.containsValue(item)) for (Integer s : items.keySet()) if (items.get(s).equals(item)) slot = s;
+            return slot;
         }
 
         public Item getItem(Integer slot) {
@@ -364,6 +376,17 @@ public class UI {
             this.preventClose = true;
         }
 
+        public void removeItem(Item item) {
+            Integer slot = getSlot(item);
+            this.items.remove(slot, item);
+            if (isOpen) setItem(null, slot);
+        }
+
+        public void removeItem(Integer slot) {
+            this.items.remove(slot);
+            if (isOpen) setItem(null, slot);
+        }
+
         public void setHolder(Player holder) {
             this.holder = holder;
         }
@@ -381,6 +404,16 @@ public class UI {
 
         public void setPlugin(Plugin plugin) {
             this.plugin = plugin;
+        }
+
+        public void setSection(Section section, Integer start) {
+
+            for (int i = 0; i < section.getItems().keySet().size(); i++) {
+                ArrayList<Integer> slots = new ArrayList<>(section.getItems().keySet());
+                int slot = slots.get(i);
+                if (section.isReversed()) Collections.reverse(slots);
+                setItem(section.getItems().get(slots.get(i)), start + slot);
+            }
         }
 
         public void setSize(int size) {
