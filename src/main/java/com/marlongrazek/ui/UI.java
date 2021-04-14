@@ -349,8 +349,11 @@ public class UI {
         }
 
         public Integer getSlot(Item item) {
-            Integer slot = 0;
-            if (items.containsValue(item)) for (Integer s : items.keySet()) if (items.get(s).equals(item)) slot = s;
+            int slot = 0;
+            for(int s = 0; s < items.keySet().size(); s++) {
+                Item i = items.get(s);
+                if(i.equals(item)) slot = s;
+            }
             return slot;
         }
 
@@ -383,7 +386,7 @@ public class UI {
 
         public void removeItem(Item item) {
             Integer slot = getSlot(item);
-            this.items.remove(slot, item);
+            this.items.remove(slot);
             if (isOpen) inv.setItem(slot, null);
         }
 
