@@ -1,5 +1,6 @@
 package com.marlongrazek.ui;
 
+import com.marlongrazek.builder.ItemStackBuilder;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -309,23 +310,17 @@ public class UI {
 
         public ItemStack toItemStack() {
 
-            ItemStack item = new ItemStack(this.material);
+            ItemStackBuilder itemStack = new ItemStackBuilder(this.material);
 
-            if (meta != null) item.setItemMeta(this.meta);
+            if (meta != null) itemStack.setItemMeta(this.meta);
             else {
-                String name = this.name;
-                ArrayList<String> lore = this.lore;
-
-                ItemMeta meta = item.getItemMeta();
-                meta.setDisplayName(name);
-                meta.setLore(lore);
-
-                for (ItemFlag itemFlag : itemFlags) meta.addItemFlags(itemFlag);
-                item.setItemMeta(meta);
-                item.addUnsafeEnchantments(enchantments);
-                item.setAmount(amount);
+                itemStack.setName(this.name);
+                itemStack.setLore(this.lore);
+                itemStack.setItemFlags(itemFlags);
+                itemStack.setEnchantments(enchantments);
+                itemStack.setAmount(amount);
             }
-            return item;
+            return itemStack.toItemStack();
         }
     }
 
