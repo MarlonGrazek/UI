@@ -221,6 +221,14 @@ public class UI {
             itemFlags.add(itemFlag);
         }
 
+        public void addItemFlags(ArrayList<ItemFlag> itemFlags) {
+            for (ItemFlag itemFlag : itemFlags) if (!this.itemFlags.contains(itemFlag)) this.itemFlags.add(itemFlag);
+        }
+
+        public void setItemFlags(ArrayList<ItemFlag> itemFlags) {
+            this.itemFlags = itemFlags;
+        }
+
         public void addLoreLine(String line) {
             lore.add(line);
         }
