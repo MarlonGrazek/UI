@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 public class UI {
 
     private final Events events = new Events();
-    private static Inventory inv;
+    private Inventory inv;
     private final HashMap<Integer, Item> items;
     private final Player player;
     private final Plugin plugin;
@@ -344,21 +344,21 @@ public class UI {
                     }
                 }
             } else items.put(0, item);
-            if (isOpen) inv.addItem(item.toItemStack());
+            //if (isOpen) inv.addItem(item.toItemStack());
         }
 
         public Player getHolder() {
             return this.holder;
         }
 
-        public Integer getSlot(Item item) {
+        /*public Integer getSlot(Item item) {
             for (int i = 0; i < inv.getContents().length; i++) {
                 if (inv.getItem(i) != null) {
                     if (inv.getItem(i).equals(item.toItemStack())) return i;
                 }
             }
             return null;
-        }
+        }*/
 
         public Item getItem(Integer slot) {
             return items.get(slot);
@@ -387,15 +387,15 @@ public class UI {
             this.preventClose = true;
         }
 
-        public void removeItem(Item item) {
+        /*public void removeItem(Item item) {
             Integer slot = getSlot(item);
             this.items.remove(slot);
             if (isOpen) inv.setItem(slot, null);
-        }
+        }*/
 
         public void removeItem(Integer slot) {
             this.items.remove(slot);
-            if (isOpen) inv.setItem(slot, null);
+            //if (isOpen) inv.setItem(slot, null);
         }
 
         public void setHolder(Player holder) {
@@ -404,12 +404,12 @@ public class UI {
 
         public void setItem(Item item, Integer slot) {
             this.items.put(slot, item);
-            if (isOpen) inv.setItem(slot, item.toItemStack());
+            //if (isOpen) inv.setItem(slot, item.toItemStack());
         }
 
         public void setItems(HashMap<Integer, Item> items) {
             this.items = items;
-            if (isOpen) for (Integer slot : items.keySet()) inv.setItem(slot, items.get(slot).toItemStack());
+            //if (isOpen) for (Integer slot : items.keySet()) inv.setItem(slot, items.get(slot).toItemStack());
         }
 
         public void setPlugin(Plugin plugin) {
