@@ -174,8 +174,8 @@ public class UI {
 
         @EventHandler
         public void onInventoryClick(InventoryClickEvent e) {
-            if (e.getInventory() == inventory)
-                if (e.getCurrentItem() != null)
+            if (e.getInventory() == inventory) {
+                if (e.getCurrentItem() != null) {
                     for (Item item : items.values()) {
                         if (item != null) {
                             if (e.getCurrentItem().equals(item.toItemStack())) {
@@ -185,6 +185,8 @@ public class UI {
                             }
                         }
                     }
+                } else e.setCancelled(true);
+            }
         }
     }
 
