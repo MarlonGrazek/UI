@@ -28,13 +28,13 @@ import java.util.function.Consumer;
 public class UI {
 
     private final Events events = new Events();
-    private Inventory inv;
+    private Inventory inventory;
     private final HashMap<Integer, Item> items;
-    private final Player player;
-    private final Plugin plugin;
-    private final boolean preventClose;
+    private Player player;
+    private Plugin plugin;
+    private boolean preventClose;
     private int size;
-    private final String title;
+    private String title;
     private InventoryType type;
 
     private void closeInventory() {
@@ -43,19 +43,31 @@ public class UI {
 
     private void openInventory() {
 
-        if (type != null) inv = Bukkit.createInventory(this.player, this.type, this.title);
-        else inv = Bukkit.createInventory(this.player, this.size, this.title);
-
+        if (type != null) inventory = Bukkit.createInventory(this.player, this.type, this.title);
+        else inventory = Bukkit.createInventory(this.player, this.size, this.title);
         for (Item item : this.items.values()) {
             for (Integer slot : items.keySet()) {
                 if (items.get(slot) == item) {
-                    if (item != null) inv.setItem(slot, item.toItemStack());
-                    else inv.setItem(slot, null);
+                    if (item != null) inventory.setItem(slot, item.toItemStack());
+                    else inventory.setItem(slot, null);
                 }
             }
         }
-        this.player.openInventory(inv);
+        this.player.openInventory(inventory);
         Bukkit.getPluginManager().registerEvents(this.events, this.plugin);
+
+    }
+
+    private UI(HashMap<Integer, Item> items) {
+        this.items = items;
+        for (Item item : this.items.values()) {
+            for (Integer slot : this.items.keySet()) {
+                if (items.get(slot) == item) {
+                    if (item != null) inventory.setItem(slot, item.toItemStack());
+                    else inventory.setItem(slot, null);
+                }
+            }
+        }
     }
 
     public UI(Plugin plugin, Player player, String title, int size, HashMap<Integer, Item> items, boolean preventClose) {
@@ -167,7 +179,7 @@ public class UI {
 
         @EventHandler
         public void onClose(InventoryCloseEvent e) {
-            if (e.getInventory() == inv) {
+            if (e.getInventory() == inventory) {
                 UI.this.closeInventory();
                 if (UI.this.preventClose) Bukkit.getScheduler().runTask(UI.this.plugin, UI.this::openInventory);
             }
@@ -175,7 +187,7 @@ public class UI {
 
         @EventHandler
         public void onInventoryClick(InventoryClickEvent e) {
-            if (e.getInventory() == inv)
+            if (e.getInventory() == inventory)
                 if (e.getCurrentItem() != null)
                     for (Item item : items.values()) {
                         if (item != null) {
@@ -344,21 +356,21 @@ public class UI {
                     }
                 }
             } else items.put(0, item);
-            //if (isOpen) inv.addItem(item.toItemStack());
+            if (isOpen) new UI(items);
         }
 
         public Player getHolder() {
             return this.holder;
         }
 
-        /*public Integer getSlot(Item item) {
-            for (int i = 0; i < inv.getContents().length; i++) {
-                if (inv.getItem(i) != null) {
-                    if (inv.getItem(i).equals(item.toItemStack())) return i;
+        public Integer getSlot(Item item) {
+            for (int i = 0; i < holder.getOpenInventory().getTopInventory().getContents().length; i++) {
+                if (holder.getOpenInventory().getTopInventory().getItem(i) != null) {
+                    if (holder.getOpenInventory().getTopInventory().getItem(i).equals(item.toItemStack())) return i;
                 }
             }
             return null;
-        }*/
+        }
 
         public Item getItem(Integer slot) {
             return items.get(slot);
@@ -387,15 +399,15 @@ public class UI {
             this.preventClose = true;
         }
 
-        /*public void removeItem(Item item) {
+        public void removeItem(Item item) {
             Integer slot = getSlot(item);
             this.items.remove(slot);
-            if (isOpen) inv.setItem(slot, null);
-        }*/
+            if (isOpen) new UI(items);
+        }
 
         public void removeItem(Integer slot) {
             this.items.remove(slot);
-            //if (isOpen) inv.setItem(slot, null);
+            if (isOpen) new UI(items);
         }
 
         public void setHolder(Player holder) {
@@ -404,12 +416,12 @@ public class UI {
 
         public void setItem(Item item, Integer slot) {
             this.items.put(slot, item);
-            //if (isOpen) inv.setItem(slot, item.toItemStack());
+            if (isOpen) new UI(items);
         }
 
         public void setItems(HashMap<Integer, Item> items) {
             this.items = items;
-            //if (isOpen) for (Integer slot : items.keySet()) inv.setItem(slot, items.get(slot).toItemStack());
+            if (isOpen) new UI(items);
         }
 
         public void setPlugin(Plugin plugin) {
