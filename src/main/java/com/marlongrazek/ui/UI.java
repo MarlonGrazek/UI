@@ -55,11 +55,11 @@ public class UI {
         }
         this.player.openInventory(inventory);
         Bukkit.getPluginManager().registerEvents(this.events, this.plugin);
-
     }
 
     private UI(HashMap<Integer, Item> items) {
         this.items = items;
+        Inventory inventory = player.getOpenInventory().getTopInventory();
         for (Item item : this.items.values()) {
             for (Integer slot : this.items.keySet()) {
                 if (items.get(slot) == item) {
