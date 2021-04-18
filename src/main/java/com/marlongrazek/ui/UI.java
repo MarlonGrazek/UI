@@ -30,11 +30,11 @@ public class UI {
     private final Events events = new Events();
     private Inventory inventory;
     private final HashMap<Integer, Item> items;
-    private Player player;
-    private Plugin plugin;
-    private boolean preventClose;
+    private final Player player;
+    private final Plugin plugin;
+    private final Boolean preventClose;
     private int size;
-    private String title;
+    private final String title;
     private InventoryType type;
 
     private void closeInventory() {
@@ -55,19 +55,6 @@ public class UI {
         }
         this.player.openInventory(inventory);
         Bukkit.getPluginManager().registerEvents(this.events, this.plugin);
-    }
-
-    private UI(HashMap<Integer, Item> items) {
-        this.items = items;
-        Inventory inventory = player.getOpenInventory().getTopInventory();
-        for (Item item : this.items.values()) {
-            for (Integer slot : this.items.keySet()) {
-                if (items.get(slot) == item) {
-                    if (item != null) inventory.setItem(slot, item.toItemStack());
-                    else inventory.setItem(slot, null);
-                }
-            }
-        }
     }
 
     public UI(Plugin plugin, Player player, String title, int size, HashMap<Integer, Item> items, boolean preventClose) {
@@ -356,7 +343,7 @@ public class UI {
                     }
                 }
             } else items.put(0, item);
-            if (isOpen) new UI(items);
+            //if (isOpen) new UI(items);
         }
 
         public Player getHolder() {
@@ -402,12 +389,12 @@ public class UI {
         public void removeItem(Item item) {
             Integer slot = getSlot(item);
             this.items.remove(slot);
-            if (isOpen) new UI(items);
+            //if (isOpen) new UI(items);
         }
 
         public void removeItem(Integer slot) {
             this.items.remove(slot);
-            if (isOpen) new UI(items);
+            //if (isOpen) new UI(items);
         }
 
         public void setHolder(Player holder) {
@@ -416,12 +403,12 @@ public class UI {
 
         public void setItem(Item item, Integer slot) {
             this.items.put(slot, item);
-            if (isOpen) new UI(items);
+            //if (isOpen) new UI(items);
         }
 
         public void setItems(HashMap<Integer, Item> items) {
             this.items = items;
-            if (isOpen) new UI(items);
+            //if (isOpen) new UI(items);
         }
 
         public void setPlugin(Plugin plugin) {
