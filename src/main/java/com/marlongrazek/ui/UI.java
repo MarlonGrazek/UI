@@ -183,6 +183,13 @@ public class UI {
                                 e.setCancelled(!item.undefinedClicksAllowed());
                                 if (item.getClickAction() != null) item.getClickAction().accept(e.getClick());
                             } else e.setCancelled(true);
+                        } else {
+                            if (player.getItemOnCursor() != null) {
+                                if (player.getItemOnCursor().equals(item.toItemStack())) {
+                                    e.setCancelled(!item.undefinedClicksAllowed());
+                                    if (item.getClickAction() != null) item.getClickAction().accept(e.getClick());
+                                }
+                            }
                         }
                     }
                 } else e.setCancelled(true);
