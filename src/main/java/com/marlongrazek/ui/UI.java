@@ -34,6 +34,7 @@ class PageHistory {
     }
 
     public static void add(Player player, UI.Page page) {
+        if (!pageHistory.containsKey(player)) pageHistory.put(player, new ArrayList<>());
         pageHistory.get(player).add(page);
     }
 
