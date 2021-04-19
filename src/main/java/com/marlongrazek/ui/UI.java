@@ -25,6 +25,23 @@ import java.util.HashMap;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+class PageHistory {
+
+    private static final HashMap<Player, ArrayList<UI.Page>> pageHistory = new HashMap<>();
+
+    public static UI.Page get(Player player, Integer index) {
+        return pageHistory.get(player).get(index);
+    }
+
+    public static void add(Player player, UI.Page page) {
+        pageHistory.get(player).add(page);
+    }
+
+    public static void remove(Player player, UI.Page page) {
+        pageHistory.get(player).remove(page);
+    }
+}
+
 public class UI {
 
     private final Events events = new Events();
@@ -57,6 +74,16 @@ public class UI {
         }
         this.player.openInventory(inventory);
         Bukkit.getPluginManager().registerEvents(this.events, this.plugin);
+    }
+
+    public static Page getPageFromHistory(Player player, Integer index) {
+        return PageHistory.get(player, index);
+    }
+
+    public static Page openPageFromHistory(Player player, Integer index) {
+        Page page = PageHistory.get(player, index);
+        page.open(player);
+        return page;
     }
 
     public UI(Plugin plugin, Player player, String title, int size, HashMap<Integer, Item> items, boolean preventClose) {
@@ -387,10 +414,11 @@ public class UI {
             setItem(item, slot);
         }
 
-        public void open(Player p) {
+        public void open(Player player) {
             isOpen = true;
-            if (type != null) new UI(this.plugin, p, this.title, type, this.items, this.preventClose);
-            else new UI(this.plugin, p, this.title, this.size, this.items, this.preventClose);
+            PageHistory.add(player, this);
+            if (type != null) new UI(this.plugin, player, this.title, type, this.items, this.preventClose);
+            else new UI(this.plugin, player, this.title, this.size, this.items, this.preventClose);
         }
 
         public void preventClose() {
