@@ -47,9 +47,11 @@ public class UI {
         else inventory = Bukkit.createInventory(this.player, this.size, this.title);
         for (Item item : this.items.values()) {
             for (Integer slot : items.keySet()) {
-                if (items.get(slot) == item) {
-                    if (item != null) inventory.setItem(slot, item.toItemStack());
-                    else inventory.setItem(slot, null);
+                if (slot != null) {
+                    if (items.get(slot) == item) {
+                        if (item != null) inventory.setItem(slot, item.toItemStack());
+                        else inventory.setItem(slot, null);
+                    }
                 }
             }
         }
@@ -418,6 +420,11 @@ public class UI {
         public void setItems(HashMap<Integer, Item> items) {
             this.items = items;
             //if (isOpen) new UI(items);
+        }
+
+        public void setItemOnCursor(Player player, Item item) {
+            player.setItemOnCursor(item.toItemStack());
+            items.put(null, item);
         }
 
         public void setPlugin(Plugin plugin) {
