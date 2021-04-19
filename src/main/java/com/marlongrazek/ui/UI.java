@@ -177,24 +177,24 @@ public class UI {
         @EventHandler
         public void onInventoryClick(InventoryClickEvent e) {
             if (e.getInventory() == inventory) {
-                if (e.getCurrentItem() != null) {
-                    for (Item item : items.values()) {
+                for (Item item : items.values()) {
+                    if (e.getCurrentItem() != null) {
                         if (item != null) {
                             if (e.getCurrentItem().equals(item.toItemStack())) {
 
                                 e.setCancelled(!item.undefinedClicksAllowed());
                                 if (item.getClickAction() != null) item.getClickAction().accept(e.getClick());
                             } else e.setCancelled(true);
-                        } else {
-                            if (player.getItemOnCursor() != null) {
-                                if (player.getItemOnCursor().equals(item.toItemStack())) {
-                                    e.setCancelled(!item.undefinedClicksAllowed());
-                                    if (item.getClickAction() != null) item.getClickAction().accept(e.getClick());
-                                }
-                            }
                         }
+                    } else {
+                        if (player.getItemOnCursor() != null) {
+                            if (player.getItemOnCursor().equals(item.toItemStack())) {
+                                e.setCancelled(!item.undefinedClicksAllowed());
+                                if (item.getClickAction() != null) item.getClickAction().accept(e.getClick());
+                            }
+                        } else e.setCancelled(true);
                     }
-                } else e.setCancelled(true);
+                }
             }
         }
     }
