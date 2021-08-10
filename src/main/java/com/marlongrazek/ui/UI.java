@@ -177,21 +177,23 @@ public class UI {
         @EventHandler
         public void onInventoryClick(InventoryClickEvent e) {
             if (e.getInventory() == inventory) {
-                for (Item item : items.values()) {
-                    if (item != null) {
-                        if (e.getCurrentItem() != null) {
-                            if (e.getCurrentItem().equals(item.toItemStack())) {
+                if (e.getView().getTopInventory() == e.getClickedInventory()) {
+                    for (Item item : items.values()) {
+                        if (item != null) {
+                            if (e.getCurrentItem() != null) {
+                                if (e.getCurrentItem().equals(item.toItemStack())) {
 
-                                e.setCancelled(!item.undefinedClicksAllowed());
-                                if (item.getClickAction() != null) item.getClickAction().accept(e.getClick());
-                            } else if(e.getView().getTopInventory() == e.getClickedInventory()) e.setCancelled(true);
-                        } else {
-                            if (player.getItemOnCursor() != null) {
-                                if (player.getItemOnCursor().equals(item.toItemStack())) {
                                     e.setCancelled(!item.undefinedClicksAllowed());
                                     if (item.getClickAction() != null) item.getClickAction().accept(e.getClick());
-                                } else if (e.getView().getTopInventory() == e.getClickedInventory()) e.setCancelled(true);
-                            } else if(e.getView().getTopInventory() == e.getClickedInventory()) e.setCancelled(true);
+                                } else e.setCancelled(true);
+                            } else {
+                                if (player.getItemOnCursor() != null) {
+                                    if (player.getItemOnCursor().equals(item.toItemStack())) {
+                                        e.setCancelled(!item.undefinedClicksAllowed());
+                                        if (item.getClickAction() != null) item.getClickAction().accept(e.getClick());
+                                    } else e.setCancelled(true);
+                                } else e.setCancelled(true);
+                            }
                         }
                     }
                 }
