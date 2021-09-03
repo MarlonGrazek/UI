@@ -30,6 +30,7 @@ public class UI {
     private final Events events = new Events();
     private Inventory inventory;
     private final HashMap<Integer, Item> items;
+    private final Consumer<HashMap<Integer, Item>> openAction;
     private final Player player;
     private final Plugin plugin;
     private final Boolean preventClose;
@@ -45,6 +46,7 @@ public class UI {
 
         if (type != null) inventory = Bukkit.createInventory(this.player, this.type, this.title);
         else inventory = Bukkit.createInventory(this.player, this.size, this.title);
+        openAction.accept(items);
         for (Item item : this.items.values()) {
             for (Integer slot : items.keySet()) {
                 if (slot != null) {
@@ -59,23 +61,25 @@ public class UI {
         Bukkit.getPluginManager().registerEvents(this.events, this.plugin);
     }
 
-    public UI(Plugin plugin, Player player, String title, int size, HashMap<Integer, Item> items, boolean preventClose) {
+    public UI(Plugin plugin, Player player, String title, int size, HashMap<Integer, Item> items, boolean preventClose, Consumer<HashMap<Integer, Item>> openAction) {
         this.plugin = plugin;
         this.player = player;
         this.title = title;
         this.size = size;
         this.items = items;
         this.preventClose = preventClose;
+        this.openAction = openAction;
         openInventory();
     }
 
-    public UI(Plugin plugin, Player player, String title, InventoryType type, HashMap<Integer, Item> items, boolean preventClose) {
+    public UI(Plugin plugin, Player player, String title, InventoryType type, HashMap<Integer, Item> items, boolean preventClose, Consumer<HashMap<Integer, Item>> openAction) {
         this.plugin = plugin;
         this.player = player;
         this.title = title;
         this.type = type;
         this.items = items;
         this.preventClose = preventClose;
+        this.openAction = openAction;
         openInventory();
     }
 
@@ -216,6 +220,10 @@ public class UI {
         public Item() {
         }
 
+        public Item(String name) {
+            this.name = name;
+        }
+
         public Item(String name, Material material) {
             this.name = name;
             this.material = material;
@@ -341,6 +349,7 @@ public class UI {
         private Player holder;
         private Boolean isOpen = false;
         private HashMap<Integer, Item> items = new HashMap<>();
+        private Consumer<HashMap<Integer, Item>> openAction;
         private Plugin plugin;
         private boolean preventClose;
         private int size;
@@ -389,10 +398,14 @@ public class UI {
             setItem(item, slot);
         }
 
+        public void onOpen(Consumer<HashMap<Integer, Item>> openAction) {
+            this.openAction = openAction;
+        }
+
         public void open(Player player) {
             isOpen = true;
-            if (type != null) new UI(this.plugin, player, this.title, type, this.items, this.preventClose);
-            else new UI(this.plugin, player, this.title, this.size, this.items, this.preventClose);
+            if (type != null) new UI(this.plugin, player, this.title, type, this.items, this.preventClose, this.openAction);
+            else new UI(this.plugin, player, this.title, this.size, this.items, this.preventClose, this.openAction);
         }
 
         public void preventClose() {
