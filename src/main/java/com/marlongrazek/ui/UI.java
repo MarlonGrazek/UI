@@ -50,7 +50,7 @@ public class UI {
                 if (slot != null) {
                     if (items.get(slot) == item) {
                         if (item != null) {
-                            item.code.accept(player);
+                            if(item.code != null) item.code.accept(player);
                             inventory.setItem(slot, item.toItemStack());
                         }
                         else inventory.setItem(slot, null);
