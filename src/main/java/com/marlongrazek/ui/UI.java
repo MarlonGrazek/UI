@@ -272,6 +272,10 @@ public class UI {
             return item;
         }
 
+        public void clearLore() {
+            this.lore.clear();
+        }
+
         public Boolean undefinedClicksAllowed() {
             return undefinedClicks;
         }
@@ -318,6 +322,10 @@ public class UI {
 
         public void setLore(ArrayList<String> lore) {
             this.lore = lore;
+        }
+
+        public void setLoreLine(String line, int index) {
+            this.lore.set(index, line);
         }
 
         public void setMaterial(Material material) {
