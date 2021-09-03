@@ -30,6 +30,7 @@ public class UI {
     private final Events events = new Events();
     private Inventory inventory;
     private final HashMap<Integer, Item> items;
+    private Consumer<Player> openAction;
     private final Player player;
     private final Plugin plugin;
     private final Boolean preventClose;
@@ -45,12 +46,12 @@ public class UI {
 
         if (type != null) inventory = Bukkit.createInventory(this.player, this.type, this.title);
         else inventory = Bukkit.createInventory(this.player, this.size, this.title);
+        if(openAction != null) openAction.accept(player);
         for (Item item : this.items.values()) {
             for (Integer slot : items.keySet()) {
                 if (slot != null) {
                     if (items.get(slot) == item) {
                         if (item != null) {
-                            if(item.code != null) item.code.accept(player);
                             inventory.setItem(slot, item.toItemStack());
                         }
                         else inventory.setItem(slot, null);
@@ -62,23 +63,25 @@ public class UI {
         Bukkit.getPluginManager().registerEvents(this.events, this.plugin);
     }
 
-    public UI(Plugin plugin, Player player, String title, int size, HashMap<Integer, Item> items, boolean preventClose) {
+    public UI(Plugin plugin, Player player, String title, int size, HashMap<Integer, Item> items, boolean preventClose, Consumer<Player> openAction) {
         this.plugin = plugin;
         this.player = player;
         this.title = title;
         this.size = size;
         this.items = items;
         this.preventClose = preventClose;
+        this.openAction = openAction;
         openInventory();
     }
 
-    public UI(Plugin plugin, Player player, String title, InventoryType type, HashMap<Integer, Item> items, boolean preventClose) {
+    public UI(Plugin plugin, Player player, String title, InventoryType type, HashMap<Integer, Item> items, boolean preventClose, Consumer<Player> openAction) {
         this.plugin = plugin;
         this.player = player;
         this.title = title;
         this.type = type;
         this.items = items;
         this.preventClose = preventClose;
+        this.openAction = openAction;
         openInventory();
     }
 
@@ -208,7 +211,6 @@ public class UI {
 
         Integer amount = 1;
         Consumer<ClickType> clickAction;
-        Consumer<Player> code;
         HashMap<Enchantment, Integer> enchantments = new HashMap<>();
         ArrayList<ItemFlag> itemFlags = new ArrayList<>();
         ArrayList<String> lore = new ArrayList<>();
@@ -312,10 +314,6 @@ public class UI {
             this.amount = amount;
         }
 
-        public void setCode(Consumer<Player> code) {
-            this.code = code;
-        }
-
         public void setEnchantments(HashMap<Enchantment, Integer> enchantments) {
             this.enchantments = enchantments;
         }
@@ -361,6 +359,7 @@ public class UI {
         private Player holder;
         private Boolean isOpen = false;
         private HashMap<Integer, Item> items = new HashMap<>();
+        private Consumer<Player> openAction;
         private Plugin plugin;
         private boolean preventClose;
         private int size;
@@ -409,10 +408,14 @@ public class UI {
             setItem(item, slot);
         }
 
+        public void onOpen(Consumer<Player> openAction) {
+            this.openAction = openAction;
+        }
+
         public void open(Player player) {
             isOpen = true;
-            if (type != null) new UI(this.plugin, player, this.title, type, this.items, this.preventClose);
-            else new UI(this.plugin, player, this.title, this.size, this.items, this.preventClose);
+            if (type != null) new UI(this.plugin, player, this.title, type, this.items, this.preventClose, this.openAction);
+            else new UI(this.plugin, player, this.title, this.size, this.items, this.preventClose, this.openAction);
         }
 
         public void preventClose() {
