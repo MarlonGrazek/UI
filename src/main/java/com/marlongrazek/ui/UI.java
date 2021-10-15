@@ -74,6 +74,7 @@ public class UI {
         openInventory();
     }
 
+    
     public UI(Plugin plugin, Player player, String title, InventoryType type, HashMap<Integer, Item> items, boolean preventClose, Consumer<Player> openAction) {
         this.plugin = plugin;
         this.player = player;
