@@ -74,7 +74,6 @@ public class UI {
         openInventory();
     }
 
-    
     public UI(Plugin plugin, Player player, String title, InventoryType type, HashMap<Integer, Item> items, boolean preventClose, Consumer<Player> openAction) {
         this.plugin = plugin;
         this.player = player;
@@ -384,11 +383,7 @@ public class UI {
         }
 
         public Integer getSlot(Item item) {
-            for (int i = 0; i < holder.getOpenInventory().getTopInventory().getContents().length; i++) {
-                if (holder.getOpenInventory().getTopInventory().getItem(i) != null) {
-                    if (holder.getOpenInventory().getTopInventory().getItem(i).equals(item.toItemStack())) return i;
-                }
-            }
+            for(int i = 0; i < size; i++) if(items.get(i) != null) if(items.get(i).equals(item)) return i;
             return null;
         }
 
@@ -533,6 +528,11 @@ public class UI {
 
         public Integer getHeight() {
             return height;
+        }
+
+        public Integer getSlot(Item item) {
+            for (int i = 0; i < width * height; i++) if (items.get(i) != null) if (items.get(i).equals(item)) return i;
+            return null;
         }
 
         public Boolean isReversed() {
