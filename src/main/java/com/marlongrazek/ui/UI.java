@@ -382,7 +382,7 @@ public class UI {
             return this.holder;
         }
 
-        public Integer getSlot(Item item) {
+        public Integer getSlot(Item item) { 
             for(int i = 0; i < size; i++) if(items.get(i) != null) if(items.get(i).equals(item)) return i;
             return null;
         }
