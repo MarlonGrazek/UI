@@ -30,7 +30,7 @@ public class UI {
     private final Events events = new Events();
     private Inventory inventory;
     private final HashMap<Integer, Item> items;
-    private Consumer<Player> openAction;
+    private final Consumer<Player> openAction;
     private final Player player;
     private final Plugin plugin;
     private final Boolean preventClose;
@@ -226,6 +226,10 @@ public class UI {
             this.name = name;
         }
 
+        public Item(Material material) {
+            this.material = material;
+        }
+
         public Item(String name, Material material) {
             this.name = name;
             this.material = material;
@@ -366,6 +370,20 @@ public class UI {
         private String title;
         private InventoryType type;
 
+        public Page() {
+        }
+
+        public Page(String title, int size) {
+            this.title = title;
+            this.size = size;
+        }
+
+        public Page(String title, int size, Plugin plugin) {
+            this.title = title;
+            this.size = size;
+            this.plugin = plugin;
+        }
+
         public void addItem(Item item) {
             if (!items.isEmpty()) {
                 for (int slot = 0; slot < items.size() + 1; slot++) {
@@ -382,7 +400,7 @@ public class UI {
             return this.holder;
         }
 
-        public Integer getSlot(Item item) { 
+        public Integer getSlot(Item item) {
             for(int i = 0; i < size; i++) if(items.get(i) != null) if(items.get(i).equals(item)) return i;
             return null;
         }
