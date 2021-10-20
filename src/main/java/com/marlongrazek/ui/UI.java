@@ -46,15 +46,14 @@ public class UI {
 
         if (type != null) inventory = Bukkit.createInventory(this.player, this.type, this.title);
         else inventory = Bukkit.createInventory(this.player, this.size, this.title);
-        if(openAction != null) openAction.accept(player);
+        if (openAction != null) openAction.accept(player);
         for (Item item : this.items.values()) {
             for (Integer slot : items.keySet()) {
                 if (slot != null) {
                     if (items.get(slot) == item) {
                         if (item != null) {
                             inventory.setItem(slot, item.toItemStack());
-                        }
-                        else inventory.setItem(slot, null);
+                        } else inventory.setItem(slot, null);
                     }
                 }
             }
@@ -347,13 +346,11 @@ public class UI {
             ItemStackBuilder itemStack = new ItemStackBuilder(this.material);
 
             if (meta != null) itemStack.setItemMeta(this.meta);
-            else {
-                itemStack.setName(this.name);
-                itemStack.setLore(this.lore);
-                itemStack.setItemFlags(itemFlags);
-                itemStack.setEnchantments(enchantments);
-                itemStack.setAmount(amount);
-            }
+            itemStack.setName(this.name);
+            itemStack.setLore(this.lore);
+            itemStack.setItemFlags(itemFlags);
+            itemStack.setEnchantments(enchantments);
+            itemStack.setAmount(amount);
             return itemStack.toItemStack();
         }
     }
@@ -401,7 +398,7 @@ public class UI {
         }
 
         public Integer getSlot(Item item) {
-            for(int i = 0; i < size; i++) if(items.get(i) != null) if(items.get(i).equals(item)) return i;
+            for (int i = 0; i < size; i++) if (items.get(i) != null) if (items.get(i).equals(item)) return i;
             return null;
         }
 
@@ -428,7 +425,8 @@ public class UI {
 
         public void open(Player player) {
             isOpen = true;
-            if (type != null) new UI(this.plugin, player, this.title, type, this.items, this.preventClose, this.openAction);
+            if (type != null)
+                new UI(this.plugin, player, this.title, type, this.items, this.preventClose, this.openAction);
             else new UI(this.plugin, player, this.title, this.size, this.items, this.preventClose, this.openAction);
         }
 
