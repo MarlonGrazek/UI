@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.github.MarlonGrazek</groupId>
             <artifactId>Builder</artifactId>
-            <version>7d1f3247f9</version>
+            <version>d98513b530</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
