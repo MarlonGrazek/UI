@@ -479,7 +479,7 @@ public class UI {
                 ArrayList<Integer> slots = new ArrayList<>(section.getItems().keySet());
                 int slot = slots.get(i);
                 if (section.isReversed()) Collections.reverse(slots);
-                setItem(section.getItems().get(slot), start + x * y);
+                setItem(section.getItems().get(slot), start + x + 9 * (y - 1));
             }
         }
 
