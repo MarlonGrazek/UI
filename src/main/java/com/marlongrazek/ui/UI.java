@@ -477,9 +477,9 @@ public class UI {
                 int x = (i - section.getWidth() * (y - 1));
 
                 ArrayList<Integer> slots = new ArrayList<>(section.getItems().keySet());
-                int slot = slots.get(i);
                 if (section.isReversed()) Collections.reverse(slots);
-                setItem(section.getItems().get(slot), start + x + 9 * (y - 1));
+                if(slots.get(i) != null) setItem(section.getItems().get(slots.get(i)), start + x + 9 * (y - 1));
+                else setItem(null, start + x + 9 * (y - 1));
             }
         }
 
