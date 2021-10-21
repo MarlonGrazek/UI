@@ -473,8 +473,8 @@ public class UI {
 
             for (int i = 0; i < section.getItems().keySet().size(); i++) {
 
-                int y = ((int) Precision.round((float) (i + 1) / section.getWidth(), 0, 0) - 1);
-                int x = (i - section.getWidth() * y);
+                int y = ((int) Precision.round((float) (i + 1) / section.getWidth(), 0, 0));
+                int x = (i - section.getWidth() * (y - 1));
 
                 ArrayList<Integer> slots = new ArrayList<>(section.getItems().keySet());
                 int slot = slots.get(i);
