@@ -2,6 +2,7 @@ package com.marlongrazek.ui;
 
 import com.marlongrazek.builder.ItemStackBuilder;
 import net.wesjd.anvilgui.AnvilGUI;
+import org.apache.commons.math3.util.Precision;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -471,10 +472,14 @@ public class UI {
         public void setSection(Section section, Integer start) {
 
             for (int i = 0; i < section.getItems().keySet().size(); i++) {
+
+                int y = ((int) Precision.round((float) (i + 1) / section.getWidth(), 0, 0) - 1);
+                int x = (i - section.getWidth() * y);
+
                 ArrayList<Integer> slots = new ArrayList<>(section.getItems().keySet());
                 int slot = slots.get(i);
                 if (section.isReversed()) Collections.reverse(slots);
-                setItem(section.getItems().get(slots.get(i)), start + slot);
+                setItem(section.getItems().get(slot), start + x * y);
             }
         }
 
