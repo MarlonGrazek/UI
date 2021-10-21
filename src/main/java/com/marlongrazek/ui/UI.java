@@ -471,15 +471,16 @@ public class UI {
 
         public void setSection(Section section, Integer start) {
 
+            ArrayList<Integer> slots = new ArrayList<>(section.getItems().keySet());
+            if (section.isReversed()) Collections.reverse(slots);
+
             for (int i = 0; i < section.width * section.height; i++) {
 
                 int y = ((int) Precision.round((float) (i + 1) / section.getWidth(), 0, 0));
                 int x = (i - section.getWidth() * (y - 1));
 
-                ArrayList<Integer> items = new ArrayList<>(section.getItems().keySet());
-                if (section.isReversed()) Collections.reverse(items);
-                for (int j = 0; j < items.size(); j++)
-                    if (items.get(j) == i) setItem(section.getItems().get(j), start + x + 9 * (y - 1));
+                for (int slot : slots)
+                    if (i == slot) setItem(section.getItems().get(slot), start + x + 9 * (y - 1));
             }
         }
 
