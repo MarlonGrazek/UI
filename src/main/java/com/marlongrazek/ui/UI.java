@@ -476,9 +476,10 @@ public class UI {
                 int y = ((int) Precision.round((float) (i + 1) / section.getWidth(), 0, 0));
                 int x = (i - section.getWidth() * (y - 1));
 
-                ArrayList<Integer> slots = new ArrayList<>(section.getItems().keySet());
-                if (section.isReversed()) Collections.reverse(slots);
-                setItem(section.getItems().get(slots.get(i)), start + x + 9 * (y - 1));
+                ArrayList<Integer> items = new ArrayList<>(section.getItems().keySet());
+                if (section.isReversed()) Collections.reverse(items);
+                for (int j = 0; j < items.size(); j++)
+                    if (items.get(j) == i) setItem(section.getItems().get(j), start + x + 9 * (y - 1));
             }
         }
 
