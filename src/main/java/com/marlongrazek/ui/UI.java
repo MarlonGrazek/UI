@@ -394,6 +394,10 @@ public class UI {
             //if (isOpen) new UI(items);
         }
 
+        public void clear() {
+            items.clear();
+        }
+
         public Player getHolder() {
             return this.holder;
         }
