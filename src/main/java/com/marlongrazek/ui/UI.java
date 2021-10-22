@@ -188,17 +188,18 @@ public class UI {
                         if (item != null) {
                             if (e.getCurrentItem() != null) {
                                 if (e.getCurrentItem().equals(item.toItemStack())) {
-
                                     e.setCancelled(!item.undefinedClicksAllowed());
                                     if (item.getClickAction() != null) item.getClickAction().accept(e.getClick());
-                                } else e.setCancelled(true);
+                                    break;
+                                }
                             } else {
                                 if (player.getItemOnCursor() != null) {
                                     if (player.getItemOnCursor().equals(item.toItemStack())) {
                                         e.setCancelled(!item.undefinedClicksAllowed());
                                         if (item.getClickAction() != null) item.getClickAction().accept(e.getClick());
-                                    } else e.setCancelled(true);
-                                } else e.setCancelled(true);
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }
