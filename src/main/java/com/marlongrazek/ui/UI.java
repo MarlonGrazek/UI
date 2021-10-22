@@ -516,14 +516,10 @@ public class UI {
 
         public void addItem(Item item) {
             if (!items.isEmpty()) {
-                outerloop:
-                for (int h = 0; h < height * 9; h += 9) {
-                    for (int w = 0; w < width; w++) {
-                        int slot = w + h;
-                        if (!items.containsKey(slot)) {
-                            items.put(slot, item);
-                            break outerloop;
-                        }
+                for(int i = 0; i < width * height; i++) {
+                    if(!items.containsKey(i)) {
+                        items.put(i, item);
+                        break;
                     }
                 }
             } else items.put(0, item);
