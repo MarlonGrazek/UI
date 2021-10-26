@@ -29,11 +29,11 @@ public class History {
         return history.get(history.size() - (index + 1));
     }
 
-    public ArrayList<UI.Page> get() {
+    public ArrayList<UI.Page> list() {
         return history;
     }
 
-    public void open(int index) {
+    public void openPage(int index) {
         if (getPage(index) != null) {
             UI.Page page = getPage(index);
             for (int i = 0; i < index; i++) history.remove(history.size() - 1);
