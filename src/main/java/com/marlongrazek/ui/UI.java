@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.function.BiFunction;
@@ -331,6 +332,10 @@ public class UI {
             this.lore = lore;
         }
 
+        public void setLore(String... lore) {
+            this.lore = new ArrayList<>(Arrays.asList(lore));
+        }
+
         public void setLoreLine(String line, int index) {
             this.lore.set(index, line);
         }
@@ -360,7 +365,6 @@ public class UI {
     public static class Page {
 
         private Player holder;
-        private Boolean isOpen = false;
         private HashMap<Integer, Item> items = new HashMap<>();
         private Consumer<Player> openAction;
         private Plugin plugin;
@@ -430,7 +434,6 @@ public class UI {
         }
 
         public void open(Player player) {
-            isOpen = true;
             if (type != null)
                 new UI(this.plugin, player, this.title, type, this.items, this.preventClose, this.openAction);
             else new UI(this.plugin, player, this.title, this.size, this.items, this.preventClose, this.openAction);
