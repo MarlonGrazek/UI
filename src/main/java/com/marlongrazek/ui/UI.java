@@ -388,7 +388,7 @@ public class UI {
         private boolean preventClose;
         private int size;
         private String title;
-        private InventoryType type;
+        private InventoryType type; 
 
         public Page() {
         }
