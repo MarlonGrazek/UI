@@ -27,6 +27,11 @@
       <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="skullcreator-repo" />
+      <option name="name" value="skullcreator-repo" />
+      <option name="url" value="https://github.com/deanveloper/SkullCreator/raw/mvn-repo/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="nms" />
       <option name="name" value="nms" />
       <option name="url" value="https://repo.codemc.org/repository/nms" />

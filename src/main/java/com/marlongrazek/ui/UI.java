@@ -1,6 +1,7 @@
 package com.marlongrazek.ui;
 
 import com.marlongrazek.builder.ItemStackBuilder;
+import dev.dbassett.skullcreator.SkullCreator;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.apache.commons.math3.util.Precision;
 import org.bukkit.Bukkit;
@@ -20,10 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
@@ -363,6 +361,21 @@ public class UI {
             itemStack.setEnchantments(enchantments);
             itemStack.setAmount(amount);
             return itemStack.toItemStack();
+        }
+
+        public static class Skull extends Item {
+
+            public static UI.Item fromUUID(UUID uuid) {
+                return UI.Item.fromItemStack(SkullCreator.itemFromUuid(uuid));
+            }
+
+            public static UI.Item fromBase64(String base64) {
+                return UI.Item.fromItemStack(SkullCreator.itemFromBase64(base64));
+            }
+
+            public static UI.Item fromURL(String url) {
+                return UI.Item.fromItemStack(SkullCreator.itemFromUrl(url));
+            }
         }
     }
 
