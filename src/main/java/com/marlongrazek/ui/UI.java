@@ -262,6 +262,10 @@ public class UI {
             lore.add(line);
         }
 
+        public void addLoreLines(String... lines) {
+            Collections.addAll(lore, lines);
+        }
+
         public void allowUndefinedClicks() {
             this.undefinedClicks = true;
         }
