@@ -38,6 +38,8 @@ public class UI {
     private final String title;
     private InventoryType type;
 
+    private static final HashMap<Player, List<Page>> history = new HashMap<>();
+
     private void closeInventory() {
         HandlerList.unregisterAll(this.events);
     }
@@ -580,6 +582,57 @@ public class UI {
 
         public Boolean isReversed() {
             return reverse;
+        }
+    }
+
+    public static class History {
+
+        private final Player player;
+        private final List<Page> history = new ArrayList<>();
+
+        public History(Player player) {
+            this.player = player;
+            push();
+        }
+
+        private void push() {
+            UI.history.put(player, history);
+        }
+
+        public void addPage(UI.Page page) {
+            history.add(page);
+            push();
+        }
+
+        public void removePage(int index) {
+            history.remove(history.get(history.size() - index));
+            push();
+        }
+
+        public void clear() {
+            history.clear();
+            push();
+        }
+
+        public UI.Page getPage(int index) {
+            return UI.history.get(player).get(history.size() - (index + 1));
+        }
+
+        public List<UI.Page> listPages() {
+            return UI.history.get(player);
+        }
+
+        public void open(int index) {
+
+            if(getPage(index) == null) {
+                player.closeInventory();
+                return;
+            }
+
+            UI.Page page = getPage(index);
+            for(int i = 0; i < index; i++) history.remove(history.size() - 1);
+            push();
+            page.open(player);
         }
     }
 }
