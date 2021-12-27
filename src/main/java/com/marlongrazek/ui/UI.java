@@ -212,8 +212,8 @@ public class UI {
         Integer amount = 1;
         Consumer<ClickType> clickAction;
         HashMap<Enchantment, Integer> enchantments = new HashMap<>();
-        ArrayList<ItemFlag> itemFlags = new ArrayList<>();
-        ArrayList<String> lore = new ArrayList<>();
+        List<ItemFlag> itemFlags = new ArrayList<>();
+        List<String> lore = new ArrayList<>();
         Material material;
         ItemMeta meta;
         String name;
@@ -302,7 +302,7 @@ public class UI {
             return this.meta;
         }
 
-        public ArrayList<String> getLore() {
+        public List<String> getLore() {
             return this.lore;
         }
 
@@ -356,8 +356,8 @@ public class UI {
 
             if (meta != null) itemStack.setItemMeta(this.meta);
             itemStack.setName(this.name);
-            itemStack.setLore(this.lore);
-            itemStack.setItemFlags(itemFlags);
+            itemStack.setLore(new ArrayList<>(this.lore));
+            itemStack.setItemFlags(new ArrayList<>(itemFlags));
             itemStack.setEnchantments(enchantments);
             itemStack.setAmount(amount);
             return itemStack.toItemStack();
