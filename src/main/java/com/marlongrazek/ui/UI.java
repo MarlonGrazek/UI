@@ -248,11 +248,11 @@ public class UI {
             itemFlags.add(itemFlag);
         }
 
-        public void addItemFlags(ArrayList<ItemFlag> itemFlags) {
+        public void addItemFlags(List<ItemFlag> itemFlags) {
             for (ItemFlag itemFlag : itemFlags) if (!this.itemFlags.contains(itemFlag)) this.itemFlags.add(itemFlag);
         }
 
-        public void setItemFlags(ArrayList<ItemFlag> itemFlags) {
+        public void setItemFlags(List<ItemFlag> itemFlags) {
             this.itemFlags = itemFlags;
         }
 
@@ -330,12 +330,12 @@ public class UI {
             this.meta = meta;
         }
 
-        public void setLore(ArrayList<String> lore) {
+        public void setLore(List<String> lore) {
             this.lore = lore;
         }
 
         public void setLore(String... lore) {
-            this.lore = new ArrayList<>(Arrays.asList(lore));
+            this.lore = Arrays.asList(lore);
         }
 
         public void setLoreLine(String line, int index) {
