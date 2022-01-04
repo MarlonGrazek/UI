@@ -21,8 +21,18 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
+<<<<<<< Updated upstream
                     <source>14</source>
                     <target>14</target>
+=======
+<<<<<<< Updated upstream
+                    <source>8</source>
+                    <target>8</target>
+=======
+                    <source>1.8</source>
+                    <target>1.8</target>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                 </configuration>
             </plugin>
             <plugin>
