@@ -500,7 +500,7 @@ public class UI {
 
             for (int i = 0; i < section.width * section.height; i++) {
 
-                int y = (int) ((float) (i + 1)) / section.getWidth(); 
+                int y = (int) ((float) (i + 1) / section.getWidth());
                 int x = (i - section.getWidth() * (y - 1));
 
                 for (int slot : slots)
