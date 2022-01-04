@@ -503,6 +503,12 @@ public class UI {
                 int y = (int) ((float) ((i + 1) / section.getWidth()));
                 int x = (i - section.getWidth() * (y - 1));
 
+                Bukkit.broadcastMessage("Width: " + section.getWidth());
+                Bukkit.broadcastMessage("Height: " + section.getHeight());
+                Bukkit.broadcastMessage("i: " + i);
+                Bukkit.broadcastMessage("y: " + (int) ((float) (i + 1) / section.getWidth()));
+                Bukkit.broadcastMessage("x: " + (i - section.getWidth() * (y - 1)));
+
                 Bukkit.broadcastMessage(y + " " + x);
 
                 for (int slot : slots)
