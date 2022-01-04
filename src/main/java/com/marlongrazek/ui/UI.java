@@ -360,7 +360,7 @@ public class UI {
             itemStack.setItemFlags(new ArrayList<>(itemFlags));
             itemStack.setEnchantments(enchantments);
             itemStack.setAmount(amount);
-            return itemStack.toItemStack(); 
+            return itemStack.toItemStack();
         }
 
         public static class Skull extends Item {
