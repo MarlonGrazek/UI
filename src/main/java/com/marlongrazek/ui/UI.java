@@ -503,6 +503,8 @@ public class UI {
                 int y = (int) ((float) ((i + 1) / section.getWidth()));
                 int x = (i - section.getWidth() * (y - 1));
 
+                Bukkit.broadcastMessage(y + " " + x);
+
                 for (int slot : slots)
                     if (i == slot) setItem(section.getItems().get(slot), start + x + 9 * (y - 1));
             }
