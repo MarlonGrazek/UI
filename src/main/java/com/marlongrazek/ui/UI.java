@@ -3,7 +3,6 @@ package com.marlongrazek.ui;
 import com.marlongrazek.builder.ItemStackBuilder;
 import dev.dbassett.skullcreator.SkullCreator;
 import net.wesjd.anvilgui.AnvilGUI;
-import org.apache.commons.math3.util.Precision;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -501,7 +500,7 @@ public class UI {
 
             for (int i = 0; i < section.width * section.height; i++) {
 
-                int y = ((int) Precision.round((float) (i + 1) / section.getWidth(), 0, 0));
+                int y = (i + 1) / section.getWidth();
                 int x = (i - section.getWidth() * (y - 1));
 
                 for (int slot : slots)
