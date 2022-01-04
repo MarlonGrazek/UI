@@ -507,7 +507,7 @@ public class UI {
                 Bukkit.broadcastMessage("Height: " + section.getHeight());
                 Bukkit.broadcastMessage("i: " + i);
                 Bukkit.broadcastMessage("y: " + (int) ((float) (i + 1) / section.getWidth()));
-                Bukkit.broadcastMessage("x: " + (i - section.getWidth() * (y - 1)));
+                Bukkit.broadcastMessage("x: " + (i - section.getWidth() * y));
 
                 Bukkit.broadcastMessage(y + " " + x);
 
