@@ -500,16 +500,8 @@ public class UI {
 
             for (int i = 0; i < section.width * section.height; i++) {
 
-                int y = (int) ((float) ((i + 1) / section.getWidth()));
+                int y = (int) Math.ceil((float) (i + 1) / section.getWidth());
                 int x = (i - section.getWidth() * (y - 1));
-
-                Bukkit.broadcastMessage("Width: " + section.getWidth());
-                Bukkit.broadcastMessage("Height: " + section.getHeight());
-                Bukkit.broadcastMessage("i: " + i);
-                Bukkit.broadcastMessage("y: " + (int) ((float) (i + 1) / section.getWidth()));
-                Bukkit.broadcastMessage("x: " + (i - section.getWidth() * y));
-
-                Bukkit.broadcastMessage(y + " " + x);
 
                 for (int slot : slots)
                     if (i == slot) setItem(section.getItems().get(slot), start + x + 9 * (y - 1));
