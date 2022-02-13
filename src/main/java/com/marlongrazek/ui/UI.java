@@ -44,21 +44,23 @@ public class UI {
     private void openInventory() {
 
         if (openAction != null) openAction.accept(player);
-        if (type != null) inventory = Bukkit.createInventory(this.player, this.type, this.title);
-        else inventory = Bukkit.createInventory(this.player, this.size, this.title);
-        for (Item item : this.items.values()) {
-            for (Integer slot : items.keySet()) {
-                if (slot != null) {
-                    if (items.get(slot) == item) {
-                        if (item != null) {
-                            inventory.setItem(slot, item.toItemStack());
-                        } else inventory.setItem(slot, null);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (type != null) inventory = Bukkit.createInventory(this.player, this.type, this.title);
+            else inventory = Bukkit.createInventory(this.player, this.size, this.title);
+            for (Item item : this.items.values()) {
+                for (Integer slot : items.keySet()) {
+                    if (slot != null) {
+                        if (items.get(slot) == item) {
+                            if (item != null) {
+                                inventory.setItem(slot, item.toItemStack());
+                            } else inventory.setItem(slot, null);
+                        }
                     }
                 }
             }
-        }
-        this.player.openInventory(inventory);
-        Bukkit.getPluginManager().registerEvents(this.events, this.plugin);
+            this.player.openInventory(inventory);
+            Bukkit.getPluginManager().registerEvents(this.events, this.plugin);
+        }, 1);
     }
 
     public UI(Plugin plugin, Player player, String title, int size, HashMap<Integer, Item> items, boolean preventClose, Consumer<Player> openAction) {
