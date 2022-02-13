@@ -43,9 +43,9 @@ public class UI {
 
     private void openInventory() {
 
+        if (openAction != null) openAction.accept(player);
         if (type != null) inventory = Bukkit.createInventory(this.player, this.type, this.title);
         else inventory = Bukkit.createInventory(this.player, this.size, this.title);
-        if (openAction != null) openAction.accept(player);
         for (Item item : this.items.values()) {
             for (Integer slot : items.keySet()) {
                 if (slot != null) {
