@@ -178,7 +178,7 @@ public class UI {
         @EventHandler
         public void onClose(InventoryCloseEvent e) {
             if (e.getInventory() == inventory) {
-                closeAction.accept(player);
+                if(closeAction != null) closeAction.accept(player);
                 UI.this.closeInventory();
                 if (UI.this.preventClose) Bukkit.getScheduler().runTask(UI.this.plugin, UI.this::openInventory);
             }
