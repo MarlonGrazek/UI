@@ -30,6 +30,7 @@ public class UI {
     private Inventory inventory;
     private final HashMap<Integer, Item> items;
     private final Consumer<Player> openAction;
+    private final Consumer<Player> closeAction;
     private final Player player;
     private final Plugin plugin;
     private final Boolean preventClose;
@@ -63,7 +64,7 @@ public class UI {
         }, 1);
     }
 
-    public UI(Plugin plugin, Player player, String title, int size, HashMap<Integer, Item> items, boolean preventClose, Consumer<Player> openAction) {
+    public UI(Plugin plugin, Player player, String title, int size, HashMap<Integer, Item> items, boolean preventClose, Consumer<Player> openAction, Consumer<Player> closeAction) {
         this.plugin = plugin;
         this.player = player;
         this.title = title;
@@ -71,10 +72,11 @@ public class UI {
         this.items = items;
         this.preventClose = preventClose;
         this.openAction = openAction;
+        this.closeAction = closeAction;
         openInventory();
     }
 
-    public UI(Plugin plugin, Player player, String title, InventoryType type, HashMap<Integer, Item> items, boolean preventClose, Consumer<Player> openAction) {
+    public UI(Plugin plugin, Player player, String title, InventoryType type, HashMap<Integer, Item> items, boolean preventClose, Consumer<Player> openAction, Consumer<Player> closeAction) {
         this.plugin = plugin;
         this.player = player;
         this.title = title;
@@ -82,6 +84,7 @@ public class UI {
         this.items = items;
         this.preventClose = preventClose;
         this.openAction = openAction;
+        this.closeAction = closeAction;
         openInventory();
     }
 
@@ -175,6 +178,7 @@ public class UI {
         @EventHandler
         public void onClose(InventoryCloseEvent e) {
             if (e.getInventory() == inventory) {
+                closeAction.accept(player);
                 UI.this.closeInventory();
                 if (UI.this.preventClose) Bukkit.getScheduler().runTask(UI.this.plugin, UI.this::openInventory);
             }
@@ -385,6 +389,7 @@ public class UI {
         private Player holder;
         private HashMap<Integer, Item> items = new HashMap<>();
         private Consumer<Player> openAction;
+        private Consumer<Player> closeAction;
         private Plugin plugin;
         private boolean preventClose;
         private int size;
@@ -451,10 +456,14 @@ public class UI {
             this.openAction = openAction;
         }
 
+        public void onClose(Consumer<Player> closeAction) {
+            this.closeAction = closeAction;
+        }
+
         public void open(Player player) {
             if (type != null)
-                new UI(this.plugin, player, this.title, type, this.items, this.preventClose, this.openAction);
-            else new UI(this.plugin, player, this.title, this.size, this.items, this.preventClose, this.openAction);
+                new UI(this.plugin, player, this.title, type, this.items, this.preventClose, this.openAction, this.closeAction);
+            else new UI(this.plugin, player, this.title, this.size, this.items, this.preventClose, this.openAction, this.closeAction);
         }
 
         public void preventClose() {
